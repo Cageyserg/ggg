@@ -1,27 +1,58 @@
-<audio id="silentBuffer" src="silent.mp3" preload="auto"></audio>
-<audio id="backgroundSound" src="sound.mp3" preload="auto"></audio>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сайт с автовоспроизведением звука</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            margin-top: 20%;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Добро пожаловать на сайт!</h1>
+    <p>Нажмите на страницу, чтобы включить звук.</p>
 
-<script>
-    let interactionHappened = false;
+    <!-- Бесшумный аудио-буфер -->
+    <audio id="silentBuffer" src="silent.mp3" preload="auto"></audio>
 
-    // Запускаем бесшумный буфер
-    window.onload = function() {
-        const silentBuffer = document.getElementById('silentBuffer');
-        const backgroundSound = document.getElementById('backgroundSound');
+    <!-- Основной аудиофайл -->
+    <audio id="backgroundSound" src="sound.mp3" preload="auto"></audio>
 
-        silentBuffer.play().then(() => {
-            interactionHappened = true;
-        }).catch(error => {
-            console.error("Бесшумный буфер не воспроизведен:", error);
-        });
+    <script>
+        let interactionHappened = false;
 
-        // После взаимодействия запускаем основной звук
-        document.addEventListener('click', () => {
-            if (interactionHappened) {
-                backgroundSound.play().catch(error => {
-                    console.error("Основной звук не воспроизведен:", error);
-                });
-            }
-        });
-    };
-</script>
+        // Попытка запустить бесшумный буфер
+        window.onload = function() {
+            const silentBuffer = document.getElementById('silentBuffer');
+            const backgroundSound = document.getElementById('backgroundSound');
+
+            // Запускаем бесшумный буфер
+            silentBuffer.play().then(() => {
+                console.log("Бесшумный буфер запущен.");
+                interactionHappened = true;
+            }).catch(error => {
+                console.error("Бесшумный буфер не воспроизведен:", error);
+            });
+
+            // После взаимодействия запускаем основной звук
+            document.addEventListener('click', () => {
+                if (interactionHappened) {
+                    backgroundSound.play().catch(error => {
+                        console.error("Основной звук не воспроизведен:", error);
+                    });
+                }
+            });
+        };
+    </script>
+</body>
+</html>
