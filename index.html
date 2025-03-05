@@ -20,17 +20,21 @@
 </head>
 <body>
     <h1>Добро пожаловать на сайт!</h1>
-    <p>При входе вы услышите звук.</p>
+    <p>Нажмите кнопку, чтобы включить звук.</p>
 
     <!-- Аудиофайл -->
     <audio id="backgroundSound" src="sound.mp3" preload="auto"></audio>
 
+    <!-- Кнопка для запуска звука -->
+    <button onclick="document.getElementById('backgroundSound').play()">Включить звук</button>
+
     <script>
-        // Автоматическое воспроизведение звука
+        // Попытка автовоспроизведения
         window.onload = function() {
             const audio = document.getElementById('backgroundSound');
             audio.play().catch(error => {
-                console.error("Звук не воспроизведен из-за блокировки браузером:", error);
+                console.error("Звук не воспроизведен:", error);
+                alert("Нажмите кнопку, чтобы включить звук.");
             });
         };
     </script>
