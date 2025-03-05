@@ -1,42 +1,27 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сайт с автовоспроизведением звука</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-        h1 {
-            margin-top: 20%;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-    <h1>Добро пожаловать на сайт!</h1>
-    <p>Нажмите кнопку, чтобы включить звук.</p>
+<audio id="silentBuffer" src="silent.mp3" preload="auto"></audio>
+<audio id="backgroundSound" src="sound.mp3" preload="auto"></audio>
 
-    <!-- Аудиофайл -->
-    <audio id="backgroundSound" src="sound.mp3" preload="auto"></audio>
+<script>
+    let interactionHappened = false;
 
-    <!-- Кнопка для запуска звука -->
-    <button onclick="document.getElementById('backgroundSound').play()">Включить звук</button>
+    // Запускаем бесшумный буфер
+    window.onload = function() {
+        const silentBuffer = document.getElementById('silentBuffer');
+        const backgroundSound = document.getElementById('backgroundSound');
 
-    <script>
-        // Попытка автовоспроизведения
-        window.onload = function() {
-            const audio = document.getElementById('backgroundSound');
-            audio.play().catch(error => {
-                console.error("Звук не воспроизведен:", error);
-                alert("Нажмите кнопку, чтобы включить звук.");
-            });
-        };
-    </script>
-</body>
-</html>
+        silentBuffer.play().then(() => {
+            interactionHappened = true;
+        }).catch(error => {
+            console.error("Бесшумный буфер не воспроизведен:", error);
+        });
+
+        // После взаимодействия запускаем основной звук
+        document.addEventListener('click', () => {
+            if (interactionHappened) {
+                backgroundSound.play().catch(error => {
+                    console.error("Основной звук не воспроизведен:", error);
+                });
+            }
+        });
+    };
+</script>
